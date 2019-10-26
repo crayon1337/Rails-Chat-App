@@ -1,11 +1,4 @@
 class ApplicationsController < ApplicationController
-    def index
-        #Might be useful to create a json object with all required information. Such as status.endpoints for the available endpoints
-        msg = { Status: "This is the main page of the API. More instructions will be added shortly!" }
-
-        render json: msg
-    end
-
     def create 
         #Begin Error handling block
         begin
@@ -13,7 +6,7 @@ class ApplicationsController < ApplicationController
             token = set_application_token 20
 
             #Create a new database entry. TODO: use Database queue system
-            @app = Application.new(getInputs)
+            @app = Application.new(app_params)
 
             #Update the token for the newely created application
             @app.token = token
@@ -31,6 +24,25 @@ class ApplicationsController < ApplicationController
         rescue => ex 
             render json: ex
         end
+    end
+
+    def update 
+        #Get the first app by token
+        @app = Application.where(:token => params[:token]).first
+
+        #Set the name
+        @app.name = params[:name]
+
+        #Set the response value based on @app.update return
+        if @app.save
+            msg = {Status: "Success", Message: "Application name has been changed", "Application Token": @app.token}
+        else
+            msg = {Status: "Failled", "Application Token": @app.token}
+        end
+
+        #Render json response
+        render json: msg
+
     end
 
     def destroy 
@@ -57,7 +69,7 @@ class ApplicationsController < ApplicationController
             end
         end
 
-        def getInputs
+        def app_params
             #Make sure the :name param is set!
             params.permit(:name)
         end

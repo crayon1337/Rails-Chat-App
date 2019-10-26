@@ -62,6 +62,29 @@ class MessagesController < ApplicationController
 
     end
 
+    def update 
+        #Get the application by token
+        @app = Application.where(:token => params[:application_token]).first
+
+        #Get the chat by chat_id
+        @chat = @app.chats.where(:token => params[:chat_token]).first
+
+        #Get the message
+        @message = @chat.messages.where(:token => params[:token]).first
+
+        #Set the message body
+        @message.body = params[:body]
+
+        #Set the response based on @message.save
+        if @message.save
+            msg = {Status: "Success", Message: "Message body has been changed", MessageNumber: @message.token, "Application Token": @app.token}
+        else
+            msg = {Status: "Failled", MessageNumber: @message.token, "Application Token": @app.token}
+        end
+
+        render json: msg
+    end
+
     def destroy 
         #Get the application by token
         @app = Application.where(:token => params[:application_token]).first
@@ -74,6 +97,12 @@ class MessagesController < ApplicationController
 
         #Destroy the message
         @message.destroy
+
+        #Decrement the messages_count
+        @chat.decrement(:messages_count)
+
+        #Save the chat
+        @chat.save
 
         msg = { Status: "Success", "Message": "Message has been deleted!", "MessageNumber": @message.token, "Application Token": @app.token}
 
