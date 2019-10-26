@@ -15,14 +15,14 @@ ActiveRecord::Schema.define(version: 2019_10_25_140937) do
   create_table "applications", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "name"
     t.string "token"
-    t.integer "chats_count"
+    t.integer "chats_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "chats", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "name"
-    t.integer "msgs_count"
+    t.integer "messages_count", default: 0
     t.bigint "application_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
