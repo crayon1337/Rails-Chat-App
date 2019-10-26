@@ -33,6 +33,21 @@ class ApplicationsController < ApplicationController
         end
     end
 
+    def destroy 
+        #Get the app by token
+        @app = Application.where(:token => params[:token]).first
+
+        #Destroy the app
+        @app.destroy
+
+        #Set the response 
+        msg = { Status: "Success", "Message": "Application has been deleted!", "Application Token": @app.token}
+
+        #Return response to client
+        render json: msg
+
+    end
+
     private
         def set_application_token(length)
             #Keep generating until we're quite sure it's unique!

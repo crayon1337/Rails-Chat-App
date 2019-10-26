@@ -1,13 +1,18 @@
 class ChatsController < ApplicationController
     def index 
-        #Get the app by token
-        @app = Application.where(:token => params[:application_token]).first 
+        #Error handling region
+        begin
+            #Get the app by token
+            @app = Application.where(:token => params[:application_token]).first 
 
-        #Get all chats of that app
-        @chats = @app.chats.all
+            #Get all chats of that app
+            @chats = @app.chats.all
 
-        #Return the response as JSON object
-        render json: @chats
+            #Return the response as JSON object
+            render json: @chats
+        rescue => ex 
+            render json: "Could not get the chats!"
+        end
     end
 
     def create
@@ -45,6 +50,21 @@ class ChatsController < ApplicationController
         end
 
         #Respond to the client
+        render json: msg
+    end
+
+    def destroy 
+        #Get the app by token
+        @app = Application.where(:token => params[:application_token]).first 
+
+        #Get the chat by number
+        @chat = @app.chats.where(:token => params[:token]).first
+        
+        #Destroy the chat 
+        @chat.destroy
+
+        msg = { Status: "Success", "Message": "Chat has been deleted!", "ChatNumber": @chat.token, "Application Token": @app.token}
+
         render json: msg
     end
 
