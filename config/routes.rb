@@ -3,12 +3,5 @@ Rails.application.routes.draw do
 
   root 'applications#index'
 
-  #Nested routes
-
-  resources :applications, param: :token do
-    resources :chats do
-      resources :messages
-    end
-  end
-
+  resources :applications
 end
