@@ -49,9 +49,25 @@ GEM
     byebug (11.0.1)
     concurrent-ruby (1.1.5)
     crass (1.0.5)
+    elasticsearch (7.3.0)
+      elasticsearch-api (= 7.3.0)
+      elasticsearch-transport (= 7.3.0)
+    elasticsearch-api (7.3.0)
+      multi_json
+    elasticsearch-model (7.0.0)
+      activesupport (> 3)
+      elasticsearch (> 1)
+      hashie
+    elasticsearch-rails (7.0.0)
+    elasticsearch-transport (7.3.0)
+      faraday
+      multi_json
     erubi (1.9.0)
+    faraday (0.17.0)
+      multipart-post (>= 1.2, < 3)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    hashie (3.6.0)
     i18n (1.7.0)
       concurrent-ruby (~> 1.0)
     loofah (2.3.1)
@@ -67,6 +83,8 @@ GEM
     mini_portile2 (2.4.0)
     minitest (5.12.2)
     msgpack (1.3.1-x64-mingw32)
+    multi_json (1.14.1)
+    multipart-post (2.1.1)
     mysql2 (0.5.2-x64-mingw32)
     nio4r (2.5.2)
     nokogiri (1.10.4-x64-mingw32)
@@ -123,6 +141,8 @@ PLATFORMS
 DEPENDENCIES
   bootsnap (>= 1.1.0)
   byebug
+  elasticsearch-model
+  elasticsearch-rails
   mysql2 (>= 0.4.4, < 0.6.0)
   puma (~> 3.11)
   rails (~> 5.2.3)
