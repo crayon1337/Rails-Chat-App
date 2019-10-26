@@ -6,8 +6,8 @@ Rails.application.routes.draw do
   #Nested routes
 
   resources :applications, param: :token do
-    resources :chats do
-      resources :messages
+    resources :chats, param: :token do
+      resources :messages, param: :token
     end
   end
 

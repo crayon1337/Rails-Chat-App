@@ -4,6 +4,9 @@ class ChatsController < ApplicationController
         begin
             #Get the application by token
             @app = Application.where(:token => params[:application_token]).first
+
+            #Get the last ID +1
+            @lastId = Chat.where(:application_id => @app.id).pluck('coalesce(max(token)+1, 1)').first
             
             #Create the chat using ActiveRecord_Relation
             if @chat = @app.chats.create(chat_params)
@@ -14,8 +17,14 @@ class ChatsController < ApplicationController
                 #Save the app
                 @app.save
 
+                #Set the fake identifier
+                @chat.token = @lastId
+
+                #Save the chat after update!
+                @chat.save
+
                 #Set the response Msg
-                msg = { Status: "Chat has been assigned to application with token (#{params[:application_token]})", MsgsCount: @app[:chats_count], ChatNumber: @chat[:id] }
+                msg = { Status: "Chat has been assigned to application with token (#{params[:application_token]})", MsgsCount: @chat[:messages_count], ChatNumber: @chat[:token] }
             else
                 msg = {Status: "Could not add chat to application with token (#{params[:application_token]})"}
             end
