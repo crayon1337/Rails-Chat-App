@@ -4,4 +4,9 @@ class Application < ApplicationRecord
 
     #validate the name input (Required from the client!)
     validates :name, presence: true, length: {minimum: 3}
+
+    #Set the route param
+    def to_param 
+        token
+    end
 end
