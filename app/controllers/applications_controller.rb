@@ -7,7 +7,7 @@ class ApplicationsController < ApplicationController
     end
 
     def create 
-        #Error handling
+        #Begin Error handling block
         begin
             #Call set_application_token to generate the unique TOKEN for each application!
             token = set_application_token 20
@@ -25,7 +25,7 @@ class ApplicationsController < ApplicationController
                 msg = {msg: "Could not create an application. Make sure you entered a name correctly!"}
             end
 
-            #Render the json response!
+            #Render json response!
             render json: msg
         #Print the exception to the client for now.
         rescue => ex 
