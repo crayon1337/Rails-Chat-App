@@ -1,4 +1,18 @@
 class MessagesController < ApplicationController
+    def index 
+        #Get the application by token
+        @app = Application.where(:token => params[:application_token]).first
+
+        #Get the chat by chat_id
+        @chat = @app.chats.where(:token => params[:chat_token]).first
+
+        #Get messages of chat!
+        @messages = @chat.messages.all
+
+        #Render the response as an JSON object
+        render json: @messages
+    end
+    
     def create
         #Error handling region
         begin

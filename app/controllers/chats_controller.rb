@@ -1,4 +1,15 @@
 class ChatsController < ApplicationController
+    def index 
+        #Get the app by token
+        @app = Application.where(:token => params[:application_token]).first 
+
+        #Get all chats of that app
+        @chats = @app.chats.all
+
+        #Return the response as JSON object
+        render json: @chats
+    end
+
     def create
         #Error Handling region
         begin
