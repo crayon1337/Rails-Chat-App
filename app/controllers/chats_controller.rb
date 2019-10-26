@@ -53,6 +53,17 @@ class ChatsController < ApplicationController
         render json: msg
     end
 
+    def show 
+        #Get the application by token
+        @app = Application.where(:token => params[:application_token]).first 
+
+        #Get the chat
+        @chat = @app.chats.where(:token => params[:token]).first
+
+        #Render @chat as JSON object 
+        render json: @chat
+    end
+
     def update
         #Get the application by token
         @app = Application.where(:token => params[:application_token]).first 

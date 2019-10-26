@@ -26,6 +26,14 @@ class ApplicationsController < ApplicationController
         end
     end
 
+    def show 
+        #Get the first app by token
+        @app = Application.where(:token => params[:token]).first
+
+        #Render the return @app as JSON object
+        render json: @app
+    end
+
     def update 
         #Get the first app by token
         @app = Application.where(:token => params[:token]).first

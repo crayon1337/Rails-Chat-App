@@ -62,6 +62,20 @@ class MessagesController < ApplicationController
 
     end
 
+    def show 
+        #Get the application by token
+        @app = Application.where(:token => params[:application_token]).first
+
+        #Get the chat by chat_id
+        @chat = @app.chats.where(:token => params[:chat_token]).first
+
+        #Get the message
+        @message = @chat.messages.where(:token => params[:token]).first
+        
+        #Render the @message as JSON object
+        render json: @message
+    end
+
     def update 
         #Get the application by token
         @app = Application.where(:token => params[:application_token]).first
