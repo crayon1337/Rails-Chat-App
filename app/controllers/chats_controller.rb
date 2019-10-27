@@ -16,41 +16,24 @@ class ChatsController < ApplicationController
     end
 
     def create
-        #Error Handling region
-        begin
-            #Get the application by token
-            @app = Application.where(:token => params[:application_token]).first
+        #Get the application by token
+        @app = Application.where(:token => params[:application_token]).select(:id, :chats_count).first
 
-            #Get the last ID +1
-            @lastId = Chat.where(:application_id => @app.id).pluck('coalesce(max(token)+1, 1)').first
-            
-            #Create the chat using ActiveRecord_Relation
-            if @chat = @app.chats.create(chat_params)
+        #Get the last ID +1
+        @ChatNumber = Chat.where(:application_id => @app.id).pluck('coalesce(max(token)+1, 1)').first
 
-                #Increment chat_count
-                @app.increment(:chats_count)
-
-                #Save the app
-                @app.save
-
-                #Set the fake identifier
-                @chat.token = @lastId
-
-                #Save the chat after update!
-                @chat.save
-
-                #Set the response Msg
-                msg = { Status: "Chat has been assigned to application with token (#{params[:application_token]})", MsgsCount: @chat[:messages_count], ChatNumber: @chat[:token] }
-            else
-                msg = {Status: "Could not add chat to application with token (#{params[:application_token]})"}
-            end
-
-        rescue => ex
-            msg = ex
+        if params[:name]
+            #Run the worker!
+            job_id = ChatsWorker.perform_async(params[:application_token], params[:name], @ChatNumber)
+            #Set successful return value
+            returnValue = {Status: "Success", Message: "Your chat is being created by our server.", ChatNumber: @ChatNumber, ApplicationToken: params[:application_token], JobID: job_id}
+        else
+            #Set failure return value
+            returnValue = {Status: "Failed", Message: "Every chat needs a name, right?"}
         end
 
-        #Respond to the client
-        render json: msg
+        # #Respond to the client
+        render json: returnValue
     end
 
     def show 
@@ -104,9 +87,4 @@ class ChatsController < ApplicationController
 
         render json: msg
     end
-
-    private
-        def chat_params
-            params.permit(:name)
-        end
 end
