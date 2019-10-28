@@ -1,13 +1,15 @@
 class MessagesWorker
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
+  
+  sidekiq_options retry: 3
 
   def perform(sender, body, messageNumber, appToken, chatToken)
     #Get the application by token
-    @app = Application.where(:token => appToken).first
+    @app = Application.find_by(:token => appToken)
 
     #Get the chat by chat_id
-    @chat = @app.chats.where(:token => chatToken).first
+    @chat = @app.chats.find_by(:token => chatToken)
 
     #Create the message based on chat relationship
     if @message = @chat.messages.create(:sender => sender, :body => body, :token => messageNumber)

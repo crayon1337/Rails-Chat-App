@@ -6,7 +6,7 @@ class ChatsWorker
 
   def perform(appToken, name, lastId)
     #Get the application by token
-    @app = Application.where(:token => appToken).select(:id, :chats_count, :name).first
+    @app = Application.find_by(:token => appToken)
 
     #Create the chat using ActiveRecord_Relation
     if @chat = @app.chats.create(:name => name, :token => lastId)

@@ -69,8 +69,8 @@ class ChatsController < ApplicationController
     protected
         def load_entities
             #Get the application by token
-            @app = Application.where(:token => params[:application_token]).first 
+            @app = Application.find_by(:token => params[:application_token]) 
             #Get the chat
-            @chat = @app.chats.where(:token => params[:token]).first
+            @chat = @app.chats.find_by(:token => params[:token])
         end
 end
