@@ -1,10 +1,9 @@
 class ChatsController < ApplicationController
+    before_action :load_entities
+
     def index 
         #Error handling region
         begin
-            #Get the app by token
-            @app = Application.where(:token => params[:application_token]).first 
-
             #Get all chats of that app
             @chats = @app.chats.all
 
@@ -16,14 +15,8 @@ class ChatsController < ApplicationController
     end
 
     def create
-        #Get the application by token
-        @app = Application.where(:token => params[:application_token]).select(:id, :chats_count).first
-
-        loop do
-            #Get the last ID +1
-            @ChatNumber = Chat.where(:application_id => @app.id).pluck(Arel.sql('coalesce(max(token)+1, 1)')).first
-            break @ChatNumber unless Chat.where(:token => @ChatNumber, :application_id => @app.id).exists?
-        end
+        #Get the last ID +1
+        @ChatNumber = Chat.where(:application_id => @app.id).pluck(Arel.sql('coalesce(max(token)+1, 1)')).first
 
         if params[:name]
             #Run the worker!
@@ -40,23 +33,11 @@ class ChatsController < ApplicationController
     end
 
     def show 
-        #Get the application by token
-        @app = Application.where(:token => params[:application_token]).first 
-
-        #Get the chat
-        @chat = @app.chats.where(:token => params[:token]).first
-
         #Render @chat as JSON object 
         render json: @chat
     end
 
     def update
-        #Get the application by token
-        @app = Application.where(:token => params[:application_token]).first 
-
-        #Get the chat
-        @chat = @app.chats.where(:token => params[:token]).first
-
         #Set the name
         @chat.name = params[:name]
 
@@ -71,12 +52,6 @@ class ChatsController < ApplicationController
     end
 
     def destroy 
-        #Get the app by token
-        @app = Application.where(:token => params[:application_token]).first 
-
-        #Get the chat by number
-        @chat = @app.chats.where(:token => params[:token]).first
-        
         #Destroy the chat 
         @chat.destroy
 
@@ -90,4 +65,12 @@ class ChatsController < ApplicationController
 
         render json: msg
     end
+
+    protected
+        def load_entities
+            #Get the application by token
+            @app = Application.where(:token => params[:application_token]).first 
+            #Get the chat
+            @chat = @app.chats.where(:token => params[:token]).first
+        end
 end

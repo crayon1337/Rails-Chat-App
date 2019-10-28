@@ -1,4 +1,6 @@
 class ApplicationsController < ApplicationController
+    before_action :load_entity
+    
     def create 
         #Begin Error handling block
         begin
@@ -6,13 +8,13 @@ class ApplicationsController < ApplicationController
             token = set_application_token 20
 
             #Create a new database entry. TODO: use Database queue system
-            @app = Application.new(app_params)
+            @newApp = Application.new(app_params)
 
             #Update the token for the newely created application
-            @app.token = token
+            @newApp.token = token
 
             #If the creation is successful. Return a message alongside the token!
-            if @app.save
+            if @newApp.save
                 msg = {msg: "Application has been created.", token: token}
             else
                 msg = {msg: "Could not create an application. Make sure you entered a name correctly!"}
@@ -27,17 +29,11 @@ class ApplicationsController < ApplicationController
     end
 
     def show 
-        #Get the first app by token
-        @app = Application.where(:token => params[:token]).first
-
         #Render the return @app as JSON object
         render json: @app
     end
 
     def update 
-        #Get the first app by token
-        @app = Application.where(:token => params[:token]).first
-
         #Set the name
         @app.name = params[:name]
 
@@ -54,9 +50,6 @@ class ApplicationsController < ApplicationController
     end
 
     def destroy 
-        #Get the app by token
-        @app = Application.where(:token => params[:token]).first
-
         #Destroy the app
         @app.destroy
 
@@ -80,5 +73,10 @@ class ApplicationsController < ApplicationController
         def app_params
             #Make sure the :name param is set!
             params.permit(:name)
+        end
+    protected
+        def load_entity
+            #Get the app by token
+            @app = Application.where(:token => params[:token]).first
         end
 end

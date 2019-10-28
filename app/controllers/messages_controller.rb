@@ -1,13 +1,9 @@
 class MessagesController < ApplicationController
+    before_action :load_entities
+
     def index 
         #Error handling
         begin
-            #Get the application by token
-            @app = Application.where(:token => params[:application_token]).first
-
-            #Get the chat by chat_id
-            @chat = @app.chats.where(:token => params[:chat_token]).first
-
             #Get messages of chat!
             @messages = @chat.messages.all
 
@@ -19,12 +15,6 @@ class MessagesController < ApplicationController
     end
 
     def create
-        #Get the application by token
-        @app = Application.where(:token => params[:application_token]).first
-        
-        #Get the chat by chat_id
-        @chat = @app.chats.where(:token => params[:chat_token]).first
-
         #Get the last ID +1
         @MessageNumber = Message.where(:chat_id => @chat.id).pluck(Arel.sql('coalesce(max(token)+1, 1)')).first
 
@@ -44,29 +34,11 @@ class MessagesController < ApplicationController
     end
 
     def show 
-        #Get the application by token
-        @app = Application.where(:token => params[:application_token]).first
-
-        #Get the chat by chat_id
-        @chat = @app.chats.where(:token => params[:chat_token]).first
-
-        #Get the message
-        @message = @chat.messages.where(:token => params[:token]).first
-        
         #Render the @message as JSON object
         render json: @message
     end
 
     def update 
-        #Get the application by token
-        @app = Application.where(:token => params[:application_token]).first
-
-        #Get the chat by chat_id
-        @chat = @app.chats.where(:token => params[:chat_token]).first
-
-        #Get the message
-        @message = @chat.messages.where(:token => params[:token]).first
-
         #Set the message body
         @message.body = params[:body]
 
@@ -81,15 +53,6 @@ class MessagesController < ApplicationController
     end
 
     def destroy 
-        #Get the application by token
-        @app = Application.where(:token => params[:application_token]).first
-
-        #Get the chat by chat_id
-        @chat = @app.chats.where(:token => params[:chat_token]).first
-
-        #Get the message
-        @message = @chat.messages.where(:token => params[:token]).first
-
         #Destroy the message
         @message.destroy
 
@@ -107,5 +70,16 @@ class MessagesController < ApplicationController
     private
         def message_params 
             params.permit(:sender, :body)
+        end
+    protected 
+        def load_entities
+            #Get the application by token
+            @app = Application.where(:token => params[:application_token]).first
+
+            #Get the chat by chat_id
+            @chat = @app.chats.where(:token => params[:chat_token]).first
+
+            #Get the message
+            @message = @chat.messages.where(:token => params[:token]).first
         end
 end
