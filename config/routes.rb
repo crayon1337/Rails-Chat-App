@@ -10,12 +10,10 @@ Rails.application.routes.draw do
   #Nested Apps/Chats/Messages routes
   resources :applications, param: :token, except: [:new, :edit, :index] do
     resources :chats, param: :token, except: [:new, :edit] do
+      get 'search', to: 'search#doFullMagic'
       resources :messages, param: :token, except: [:new, :edit]
     end
   end
-
-  #Search
-  get 'search', to: 'search#doFullMagic'
 
   #Check Job Status by J_ID
   get 'job/:jid', to: 'home#job' 
