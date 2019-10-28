@@ -26,7 +26,7 @@ class MessagesController < ApplicationController
         @chat = @app.chats.where(:token => params[:chat_token]).first
 
         #Get the last ID +1
-        @MessageNumber = Message.where(:chat_id => @chat.id).pluck('coalesce(max(token)+1, 1)').first
+        @MessageNumber = Message.where(:chat_id => @chat.id).pluck(Arel.sql('coalesce(max(token)+1, 1)')).first
 
         if params[:body] && params[:sender]
             #Start the worker
