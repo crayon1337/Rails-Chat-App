@@ -1,6 +1,6 @@
 class ApplicationsController < ApplicationController
-    before_action :load_entity
-    
+    before_action :load_entity, only: [:update, :destroy, :show]
+
     def create 
         #Begin Error handling block
         begin
