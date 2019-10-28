@@ -11,18 +11,10 @@ class MessagesWorker
 
     #Create the message based on chat relationship
     if @message = @chat.messages.create(:sender => sender, :body => body, :token => messageNumber)
-
-      #increase messages count
-      @chat.increment(:messages_count)
-
-      #Save the chat
-      @chat.save
-
+      store message: "Message has been created successfully"
     else
       store message: "Could not save the message. Please try again later"
-      vino = retrieve :message
     end
-
+    vino = retrieve :message
   end
-
 end

@@ -10,17 +10,10 @@ class ChatsWorker
 
     #Create the chat using ActiveRecord_Relation
     if @chat = @app.chats.create(:name => name, :token => lastId)
-
-      #Increment chat_count
-      @app.increment(:chats_count)
-
-      #Save the app
-      @app.save
+      store message: "Chat has been created successfully"
     else 
       store message: "Could not save the chat. Please try again later"
-      vino = retrieve :message
     end
-    
+    vino = retrieve :message
   end
-
 end

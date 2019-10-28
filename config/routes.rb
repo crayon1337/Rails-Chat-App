@@ -8,9 +8,9 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
 
   #Nested Apps/Chats/Messages routes
-  resources :applications, param: :token do
-    resources :chats, param: :token do
-      resources :messages, param: :token
+  resources :applications, param: :token, except: [:new, :edit, :index] do
+    resources :chats, param: :token, except: [:new, :edit] do
+      resources :messages, param: :token, except: [:new, :edit]
     end
   end
 

@@ -3,7 +3,7 @@ class Chat < ApplicationRecord
     has_many :messages, dependent: :destroy
 
     #belongs to the application model
-    belongs_to :application
+    belongs_to :application, counter_cache: true
 
     #validate the name input (Required from the client!)
     validates :name, presence: true, length: {minimum: 3}

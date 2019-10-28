@@ -3,7 +3,7 @@ class Message < ApplicationRecord
     include Searchable
     
     #Each message belongs to a chat
-    belongs_to :chat
+    belongs_to :chat, counter_cache: true
 
     #Validate the sender & body
     validates :sender, presence: true, length: {minimum: 3}

@@ -2,30 +2,26 @@ class ApplicationsController < ApplicationController
     before_action :load_entity, only: [:update, :destroy, :show]
 
     def create 
-        #Begin Error handling block
-        begin
-            #Call set_application_token to generate the unique TOKEN for each application!
-            token = set_application_token 20
+        #Call set_application_token to generate the unique TOKEN for each application!
+        token = set_application_token 20
 
-            #Create a new database entry. TODO: use Database queue system
-            @newApp = Application.new(app_params)
+        #Create a new database entry. TODO: use Database queue system
+        @newApp = Application.new(app_params)
 
-            #Update the token for the newely created application
-            @newApp.token = token
+        #Update the token for the newely created application
+        @newApp.token = token
 
-            #If the creation is successful. Return a message alongside the token!
-            if @newApp.save
-                msg = {msg: "Application has been created.", token: token}
-            else
-                msg = {msg: "Could not create an application. Make sure you entered a name correctly!"}
-            end
-
-            #Render json response!
-            render json: msg
-        #Print the exception to the client for now.
-        rescue => ex 
-            render json: ex
+        #If the creation is successful. Return a message alongside the token!
+        if @newApp.save
+            msg = {msg: "Application has been created.", token: token}
+            status = 200
+        else
+            msg = {msg: "Could not create an application. Make sure you entered a name correctly!"}
+            status = 422
         end
+
+        #Render json response!
+        render json: msg, :status => status
     end
 
     def show 
@@ -40,12 +36,14 @@ class ApplicationsController < ApplicationController
         #Set the response value based on @app.update return
         if @app.save
             msg = {Status: "Success", Message: "Application name has been changed", "Application Token": @app.token}
+            status = 200
         else
             msg = {Status: "Failled", "Application Token": @app.token}
+            status = 422
         end
 
         #Render json response
-        render json: msg
+        render json: msg, :status => status
 
     end
 
@@ -53,11 +51,17 @@ class ApplicationsController < ApplicationController
         #Destroy the app
         @app.destroy
 
-        #Set the response 
-        msg = { Status: "Success", "Message": "Application has been deleted!", "Application Token": @app.token}
-
+        if @app.destroyed?
+            #Set the successful response 
+            msg = { Status: "Success", "Message": "Application has been deleted!", "Application Token": @app.token}
+            status = 200
+        else
+            msg = {Message: "Could not delete the application"}
+            status = 422
+        end
+        
         #Return response to client
-        render json: msg
+        render json: msg, :status => status
 
     end
 
@@ -77,6 +81,6 @@ class ApplicationsController < ApplicationController
     protected
         def load_entity
             #Get the app by token
-            @app = Application.where(:token => params[:token]).first
+            @app = Application.find_by(:token => params[:token])
         end
 end

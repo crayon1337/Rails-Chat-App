@@ -2,16 +2,11 @@ class MessagesController < ApplicationController
     before_action :load_entities
 
     def index 
-        #Error handling
-        begin
-            #Get messages of chat!
-            @messages = @chat.messages.all
+        #Get messages of chat!
+        @messages = @chat.messages.all
 
-            #Render the response as an JSON object
-            render json: @messages
-        rescue => ex 
-            render json: "Could not get the messages!"
-        end
+        #Render the response as an JSON object
+        render json: @messages
     end
 
     def create
@@ -24,13 +19,17 @@ class MessagesController < ApplicationController
 
             #Set the successful return value
             returnValue = {Status: "Success", Message: "Your message is being processed by our server", MessageNumber: @MessageNumber, ChatNumber: params[:chat_token], ApplicationToken: params[:application_token], JobID: job_id}
+            
+            status = 200
         else
             #Set the failure return value
             returnValue = {Status: "Failed", Message: "Every message needs a body and a sender name."}
+
+            status = 422
         end
 
         #Respond to the client
-        render json: returnValue
+        render json: returnValue, :status => status
     end
 
     def show 
@@ -45,26 +44,28 @@ class MessagesController < ApplicationController
         #Set the response based on @message.save
         if @message.save
             msg = {Status: "Success", Message: "Message body has been changed", MessageNumber: @message.token, "Application Token": @app.token}
+            status = 200
         else
             msg = {Status: "Failled", MessageNumber: @message.token, "Application Token": @app.token}
+            status = 422
         end
 
-        render json: msg
+        render json: msg, :status => status
     end
 
     def destroy 
         #Destroy the message
         @message.destroy
 
-        #Decrement the messages_count
-        @chat.decrement(:messages_count)
+        if @message.destroyed?
+            msg = { Status: "Success", "Message": "Message has been deleted!", "MessageNumber": @message.token, "Application Token": @app.token}
+            status = 200
+        else 
+            msg = {Message: "Could not delete the message"}
+            status = 422
+        end
 
-        #Save the chat
-        @chat.save
-
-        msg = { Status: "Success", "Message": "Message has been deleted!", "MessageNumber": @message.token, "Application Token": @app.token}
-
-        render json: msg
+        render json: msg, :status => status
     end
 
     private
