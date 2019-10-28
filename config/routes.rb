@@ -7,14 +7,16 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 
-  #Nested routes
-
+  #Nested Apps/Chats/Messages routes
   resources :applications, param: :token do
     resources :chats, param: :token do
       resources :messages, param: :token
     end
   end
 
+  #Search
   get 'search', to: 'search#doFullMagic'
 
+  #Check Job Status by J_ID
+  get 'job/:jid', to: 'home#job' 
 end

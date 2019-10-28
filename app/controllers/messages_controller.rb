@@ -33,7 +33,7 @@ class MessagesController < ApplicationController
             job_id = MessagesWorker.perform_async params[:sender], params[:body], @MessageNumber, params[:application_token], params[:chat_token]
 
             #Set the successful return value
-            returnValue = {Status: "Success", Message: "Your message is being processed by our server", MessageNumber: @MessageNumber, ChatNumber: params[:chat_token], ApplicationToken: params[:application_token]}
+            returnValue = {Status: "Success", Message: "Your message is being processed by our server", MessageNumber: @MessageNumber, ChatNumber: params[:chat_token], ApplicationToken: params[:application_token], JobID: job_id}
         else
             #Set the failure return value
             returnValue = {Status: "Failed", Message: "Every message needs a body and a sender name."}

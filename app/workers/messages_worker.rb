@@ -1,5 +1,6 @@
 class MessagesWorker
   include Sidekiq::Worker
+  include Sidekiq::Status::Worker
 
   def perform(sender, body, messageNumber, appToken, chatToken)
     #Get the application by token

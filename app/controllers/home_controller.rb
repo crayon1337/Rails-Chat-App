@@ -5,4 +5,11 @@ class HomeController < ApplicationController
 
         render json: msg
     end
+    def job
+        #Get status of a job by id
+        @data = Sidekiq::Status::get_all params[:jid]
+        
+        #Render @data to the client
+        render json: @data
+    end
 end

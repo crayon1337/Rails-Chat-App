@@ -19,8 +19,11 @@ class ChatsController < ApplicationController
         #Get the application by token
         @app = Application.where(:token => params[:application_token]).select(:id, :chats_count).first
 
-        #Get the last ID +1
-        @ChatNumber = Chat.where(:application_id => @app.id).pluck(Arel.sql('coalesce(max(token)+1, 1)')).first
+        loop do
+            #Get the last ID +1
+            @ChatNumber = Chat.where(:application_id => @app.id).pluck(Arel.sql('coalesce(max(token)+1, 1)')).first
+            break @ChatNumber unless Chat.where(:token => @ChatNumber, :application_id => @app.id).exists?
+        end
 
         if params[:name]
             #Run the worker!
