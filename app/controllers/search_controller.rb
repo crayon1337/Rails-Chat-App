@@ -7,7 +7,7 @@ class SearchController < ApplicationController
         @chat = @app.chats.find_by(:token => params[:chat_token])
 
         #Only do the search if the chat exists
-        if @chat
+        if !@chat.nil?
             #Search over messages
             @returnValue = @chat.messages.search(params[:q])
             status = 200

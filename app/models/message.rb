@@ -17,25 +17,15 @@ class Message < ApplicationRecord
     #Search method
     def self.search(query)
 		__elasticsearch__.search({
+            _source: ['sender', 'body', 'created_at'],
 			query: {
 				wildcard: {
 					body: {
                         value: "*#{query}*",
-                        boost: 1,0,
+                        boost: 1.0,
                     }
                 }
             }
         })
     end
-
-    # Delete the previous Messages index in Elasticsearch
-    Message.__elasticsearch__.client.indices.delete index: Message.index_name rescue nil
-
-    # Create the new index with the new mapping
-    Message.__elasticsearch__.client.indices.create \
-    index: Message.index_name,
-    body: { settings: Message.settings.to_hash, mappings: Message.mappings.to_hash }
-
-    # Index all Message records from the DB to Elasticsearch
-    Message.import
 end
