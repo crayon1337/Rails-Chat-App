@@ -14,6 +14,11 @@ I used the `--api` tag because I wanted to skip unnecessary files as long as all
 ### Workers
  - ChatsWorker
  - MessagesWorker
+### Code Format
+ 
+ Used [rubocop](https://github.com/rubocop-hq/rubocop) to analyze and format the code
+
+ Reference: [Ruby Style Guide](https://github.com/rubocop-hq/ruby-style-guide)
 ## Dependencies
  - [Ruby version 2.5.7](https://rubyinstaller.org/downloads/)
  - [Rails version 5.2.3](https://rubygems.org/gems/rails/versions/5.2.3)

@@ -1,31 +1,33 @@
+# frozen_string_literal: true
+
+# Message Model Class
 class Message < ApplicationRecord
-    #Import Searchable module
-    include Searchable
-    
-    #Each message belongs to a chat
-    belongs_to :chat, counter_cache: true
+  # Import Searchable module
+  include Searchable
 
-    #Validate the sender & body
-    validates :sender, presence: true, length: {minimum: 3}
-    validates :body, presence: true, length: {minimum: 3}
+  # Each message belongs to a chat
+  belongs_to :chat, counter_cache: true
 
-    #Set the route param
-    def to_param 
-        token
-    end
+  # Validate the sender & body
+  validates :sender, presence: true, length: { minimum: 3 }
+  validates :body, presence: true, length: { minimum: 3 }
 
-    #Search method
-    def self.search(query)
-		__elasticsearch__.search({
-            _source: ['sender', 'body', 'created_at'],
-			query: {
-				wildcard: {
-					body: {
-                        value: "*#{query}*",
-                        boost: 1.0,
-                    }
-                }
-            }
-        })
-    end
+  # Set the route param
+  def to_param
+    token
+  end
+
+  # Search method
+  def self.search(query)
+    __elasticsearch__.search(
+      _source: %w[sender body created_at],
+      query: {
+        wildcard: {
+          body: {
+            value: "*#{query}*", boost: 1.0
+          }
+        }
+      }
+    )
+  end
 end
