@@ -33,12 +33,13 @@ The following softwares I used during the development of this application:
 - [Github Desktop](https://desktop.github.com/)
 - [Git](https://git-scm.com/)
 - [Google Chrome](https://www.google.com/chrome/)
-- [Virtualbox]([Virtualbox.org]) I like to have a local dev-servers
+- [Virtualbox]([Virtualbox.org])
 ## Development Deployment
  - Navigate to [Ruby Installer page]([https://rubyinstaller.org/downloads/]) and download version 2.5.7 
  - Run the installer
  - Install Rails v5.2.3 using gem by executing`gem 'rails', '~> 5.2', '>= 5.2.3'` in your terminal/cmd
  - Install MariaDB for Ubuntu/CentOS use this [guide](https://computingforgeeks.com/install-mariadb-10-on-ubuntu-18-04-and-centos-7/) and for windows follow [this](https://mariadb.com/kb/en/library/installing-mariadb-msi-packages-on-windows/)
+ - Install Redis by following this [guide](https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-redis-on-ubuntu-18-04)
  - Download & Install [Elastic Search](https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html)
  - Clone the [repo]([https://github.com/crayon1337/Rails-Chat-App]) by executing `git clone https://github.com/crayon1337/Rails-Chat-App.git`
  - Change directory to the app folder `cd rails-chat-app`
@@ -46,12 +47,13 @@ The following softwares I used during the development of this application:
  - Create & migrate the database by executing `rails db:create db:migrate`
  - Run sidekiq using `bundle exec sidekiq`
  - Run elastic search using `elasticsearch`
+ - Run Redis server using `redis-server`
  - Finally, run the built-in development server using `rails s`
  ## Deploy Using Docker
 - Increase vm max cap for ElasticSearch `sudo sysctl -w vm.max_map_count=262144`
 - Increase max file descriptors `ulimit -n 65536`
 - Run Docker Composer `docker-compose up`
-- Migrate the database using `docker-compose exec --user "$(id -u):$(id -g)" website rails db:create db:migrate`
+- Finally migrate the database using `docker-compose exec --user "$(id -u):$(id -g)" website rails db:create db:migrate`
  
  Now that you can run the application let's take a look at the routes
  
