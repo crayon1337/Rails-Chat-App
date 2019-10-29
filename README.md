@@ -39,6 +39,7 @@ I used the `--api` tag because I wanted to skip unnecessary files as long as all
  - Finally, run the built-in development server using `rails s`
  
  Now that you can run the application in development environment let's take a look at the routes
+ 
  ## Routes
  The following table shows available routes in the application
 | Prefix  | Verb  | URL  Pattern | Controller#Action  |
