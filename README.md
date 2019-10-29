@@ -40,9 +40,9 @@ The following softwares I used during the development of this application:
 - [Google Chrome](https://www.google.com/chrome/)
 - [Virtualbox]([Virtualbox.org])
 ## Development Deployment
- - Navigate to [Ruby Installer page]([https://rubyinstaller.org/downloads/]) and download version 2.5.7 
+ - Navigate to [Ruby Installer page](https://rubyinstaller.org/downloads/) and download version 2.5.7 
  - Run the installer
- - Install Rails v5.2.3 using gem by executing`gem 'rails', '~> 5.2', '>= 5.2.3'` in your terminal/cmd
+ - Install Rails v5.2.3 using gem by executing`gem install rails -v 5.2.3` in your terminal/cmd
  - Install MariaDB for Ubuntu/CentOS use this [guide](https://computingforgeeks.com/install-mariadb-10-on-ubuntu-18-04-and-centos-7/) and for windows follow [this](https://mariadb.com/kb/en/library/installing-mariadb-msi-packages-on-windows/)
  - Install Redis by following this [guide](https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-redis-on-ubuntu-18-04)
  - Download & Install [Elastic Search](https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html)
