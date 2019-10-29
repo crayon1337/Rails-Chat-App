@@ -1,4 +1,4 @@
-# Rails 5 Chat System
+﻿# Rails 5 Chat System
 ## Introduction
 I have successfully completed the BE Engineer Challenge. Please keep in mind, I never coded in Ruby in my entire IT-life as I used to code in PHP (Laravel & Zend Framework). Therefore, I have bold knowledge of MVC Web-Frameworks so the concept is the same I only struggled a little bit with the new environment/syntax. But, I always find it challenging to learn new technologies so I could expand my knowledge. One week ago, I did not know how to setup Rails/Gem/Bundler. But, with a little bit of search I managed to do that and then I started to design the system **(brainstorming)** and I structured the application as the very first thing I would do. 
 ## Application Structure
