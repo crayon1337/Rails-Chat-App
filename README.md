@@ -24,7 +24,17 @@ I used the `--api` tag because I wanted to skip unnecessary files as long as all
  - [Sidekiq](https://github.com/mperham/sidekiq) to process background jobs for messages/chats creation endpoints
  - [Sidekiq::Status](https://github.com/utgarda/sidekiq-status) to get the status of previously ran worker
  - [Redis](https://redis.io/) to store Sidekiq processes
-## Development
+ ## Softwares
+The following softwares I used during the development of this application:
+- [VS Code](https://code.visualstudio.com/)
+- [Postman](https://www.getpostman.com/)
+- [Navicat](https://www.navicat.com/en/)
+- [Hyper Terminal](https://hyper.is/)
+- [Github Desktop](https://desktop.github.com/)
+- [Git](https://git-scm.com/)
+- [Google Chrome](https://www.google.com/chrome/)
+- [Virtualbox]([Virtualbox.org]) I like to have a local dev-servers
+## Development Deployment
  - Navigate to [Ruby Installer page]([https://rubyinstaller.org/downloads/]) and download version 2.5.7 
  - Run the installer
  - Install Rails v5.2.3 using gem by executing`gem 'rails', '~> 5.2', '>= 5.2.3'` in your terminal/cmd
@@ -37,6 +47,8 @@ I used the `--api` tag because I wanted to skip unnecessary files as long as all
  - Run sidekiq using `bundle exec sidekiq`
  - Run elastic search using `elasticsearch`
  - Finally, run the built-in development server using `rails s`
+ ## Deploy Using Docker
+- Run Docker Composer `docker-compose up`
  
  Now that you can run the application in development environment let's take a look at the routes
  
@@ -67,7 +79,7 @@ I used the `--api` tag because I wanted to skip unnecessary files as long as all
 | application_chat_search | GET | /applications/:application_token/chats/:chat_token/search(.:format) |  search#doFullMagic |
 | job | GET | /job/:jid(.:format) | home#job |
 
-## Routes usage
+## Consume Endpoints
 ### Create an application
 To create an application send a `POST` request to `/applications` with the name parameter. 
 Example: `curl -d "name=test" -X POST http://localhost:3000/applications`
@@ -96,22 +108,6 @@ Now we successfully created an application, chat and a message. In order to chec
 {"message":"Message has been created successfully","update_time":"1572291835","jid":"44cb8e85192f6501b76eb8fb","status":"complete","worker":"MessagesWorker","args":"[\"Crayon\",\"foobar\",1,\"2d025550899672aac1840ff1db6ddaf1f3b2d620\",\"1\"]"}
 ```
 Again, you can browse all available request methods and routes in the routes table above.
-
-## Deploy Using Docker
-- Build the container `sudo docker build . -t rails-chat-tutorial`
-- Configure the database (MySQL Docker Image)
-- Then boot the application `docker-compose up` 
-
-## Softwares
-The following softwares I used during the development of this application:
-- [VS Code](https://code.visualstudio.com/)
-- [Postman](https://www.getpostman.com/)
-- [Navicat](https://www.navicat.com/en/)
-- [Hyper Terminal](https://hyper.is/)
-- [Github Desktop](https://desktop.github.com/)
-- [Git](https://git-scm.com/)
-- [Google Chrome](https://www.google.com/chrome/)
-- [Virtualbox]([Virtualbox.org]) I like to have a local dev-servers
 
 ## Flood Test
 I wrote a tiny program using C# to flood the API and see how it would behave when you send a LOT of requests to the server and the response was satisfying for me especially after integrating Sidekiq background jobs processor
