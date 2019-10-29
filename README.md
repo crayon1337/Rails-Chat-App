@@ -48,6 +48,8 @@ The following softwares I used during the development of this application:
  - Run elastic search using `elasticsearch`
  - Finally, run the built-in development server using `rails s`
  ## Deploy Using Docker
+- Increase vm max cap for ElasticSearch `sudo sysctl -w vm.max_map_count=262144`
+- Increase max file descriptors `ulimit -n 65535`
 - Run Docker Composer `docker-compose up`
  
  Now that you can run the application in development environment let's take a look at the routes

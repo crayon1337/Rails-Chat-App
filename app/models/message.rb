@@ -16,11 +16,13 @@ class Message < ApplicationRecord
 
     #Search method
     def self.search(query)
-        __elasticsearch__.search({
-          query: {
-                multi_match: {
-                    query: query,     
-                    fields: ['body']
+		__elasticsearch__.search({
+			query: {
+				wildcard: {
+					body: {
+                        value: "*#{query}*",
+                        boost: 1,0,
+                    }
                 }
             }
         })

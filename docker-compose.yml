@@ -24,10 +24,15 @@ services:
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
       - .:/myapp
+      - logvolume01:/var/log
+    links:
+      - redis
     ports:
       - "3000:3000"
     depends_on:
       - db
+  redis:
+    image: redis
   es01:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.4.1
     container_name: es01
@@ -39,6 +44,9 @@ services:
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
       memlock:
         soft: -1
         hard: -1
@@ -73,6 +81,7 @@ volumes:
   esdata02:
     driver: local
   my-db:
+  logvolume01: {}
 
 networks:
   esnet:
