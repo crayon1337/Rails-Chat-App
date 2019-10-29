@@ -49,10 +49,10 @@ The following softwares I used during the development of this application:
  - Finally, run the built-in development server using `rails s`
  ## Deploy Using Docker
 - Increase vm max cap for ElasticSearch `sudo sysctl -w vm.max_map_count=262144`
-- Increase max file descriptors `ulimit -n 65535`
+- Increase max file descriptors `ulimit -n 65536`
 - Run Docker Composer `docker-compose up`
  
- Now that you can run the application in development environment let's take a look at the routes
+ Now that you can run the application let's take a look at the routes
  
  ## Routes
  The following table shows available routes in the application
@@ -84,7 +84,11 @@ The following softwares I used during the development of this application:
 ## Consume Endpoints
 ### Create an application
 To create an application send a `POST` request to `/applications` with the name parameter. 
-Example: `curl -d "name=test" -X POST http://localhost:3000/applications`
+
+Example: 
+```code 
+curl -d "name=test" -X POST http://localhost:3000/applications
+```
 Once the command above is executed you should get the following response 
 ```code 
 {"msg":"Application has been created.","token":"2d025550899672aac1840ff1db6ddaf1f3b2d620"}
@@ -92,7 +96,11 @@ Once the command above is executed you should get the following response
 ### Create a chat 
 Now that we have an application token we can use it to create a chat. The token we just generated is: `2d025550899672aac1840ff1db6ddaf1f3b2d620`
 To create a chat in an application send a `POST` request to `/applications/:token/chats` with the name parameter
-Example:  `curl -d "name=chitchat" -X POST http://localhost:3000/applications/e16836e2bce1bd25b0ab3304b9f26b51acf36fd2/chats`
+
+Example:  
+```code 
+curl -d "name=chitchat" -X POST http://localhost:3000/applications/e16836e2bce1bd25b0ab3304b9f26b51acf36fd2/chats
+```
 Once the command above is executed you should get the following response 
 ```code 
 {"Status":"Success","Message":"Your chat is being created by our server.","ChatNumber":1,"ApplicationToken":"2d025550899672aac1840ff1db6ddaf1f3b2d620","JobID":"d2c13480f9efe690e70ee095"}
@@ -100,7 +108,11 @@ Once the command above is executed you should get the following response
 ### Send a message
 Now that we have an application token and chat number we can use that to send a message to that chat. The chat number we just created is: `1`
 To send a message to a particular chat send a `POST` request to `/applications/:app_token/chats/:chat_number/messages` with sender & body parameters
-Example: `curl -d "sender=Crayon&body=foobar" -X POST http://localhost:3000/applications/2d025550899672aac1840ff1db6ddaf1f3b2d620/chats/1/messages`
+
+Example: 
+```code 
+curl -d "sender=Crayon&body=foobar" -X POST http://localhost:3000/applications/2d025550899672aac1840ff1db6ddaf1f3b2d620/chats/1/messages
+```
 Once the command above is executed you should get the following response
 ```code
 {"Status":"Success","Message":"Your message is being processed by our server","MessageNumber":1,"ChatNumber":"1","ApplicationToken":"2d025550899672aac1840ff1db6ddaf1f3b2d620","JobID":"44cb8e85192f6501b76eb8fb"}
@@ -112,9 +124,7 @@ Now we successfully created an application, chat and a message. In order to chec
 Again, you can browse all available request methods and routes in the routes table above.
 
 ## Flood Test
-I wrote a tiny program using C# to flood the API and see how it would behave when you send a LOT of requests to the server and the response was satisfying for me especially after integrating Sidekiq background jobs processor
-Used in that [System.Net.Http.HttpClient](https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.postasync?view=netframework-4.8)
-
+I wrote a tiny program using C# to flood the API using [System.Net.Http.HttpClient](https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.postasync?view=netframework-4.8) to see how it would behave when the server is flooded by a LOT of requests and the response was satisfying for me especially after integrating Sidekiq background jobs processor
 
 ## Conclusion 
 I have had a lot of fun creating this application because I had no clue what Rails is before I start. I used Trello [board](https://trello.com/b/ToakvioE/chat-system) to manage and organize the ToDos for this application. Hopefully, you will find it convenient. Also, make sure to check the commits history of this repo so you can see the progress I made. From 'just get it to work' to 'Code optimizations'
