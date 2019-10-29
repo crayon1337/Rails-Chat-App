@@ -98,7 +98,7 @@ Now we successfully created an application, chat and a message. In order to chec
 Again, you can browse all available request methods and routes in the routes table above.
 
 ## Deploy Using Docker
-- Build the container `docker-compose build`
+- Build the container `sudo docker build . -t rails-chat-tutorial`
 - Configure the database (MySQL Docker Image)
 - Then boot the application `docker-compose up` 
 

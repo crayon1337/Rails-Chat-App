@@ -11,7 +11,7 @@ WORKDIR /Instabug-Rails-Chat-App
 RUN apt-get update -y \
     && apt-get install rubygems -y \
     && gem install bundler \
-    && gem 'rails', '~> 5.2', '>= 5.2.3' -y \
+    && gem install rails -v 5.2.3 \
     && bundle lock --add-platform ruby \
     && bundle lock --add-platform x86_64-linux \
     && bundle install --deployment --without development test
