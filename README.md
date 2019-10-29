@@ -42,7 +42,7 @@ I used the `--api` tag because I wanted to skip unnecessary files as long as all
  ## Routes
  The following table shows available routes in the application
 | Prefix  | Verb  | URL  Pattern | Controller#Action  |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | root | GET | / | home#index |
 | sidekiq_web |   | /sidekiq | Sidekiq::Web |
 | application_chat_messages  | GET  | /applications/:application_token/chats/:chat_token/messages(.:format) | messages#index |
@@ -117,4 +117,4 @@ Used in that [System.Net.Http.HttpClient](https://docs.microsoft.com/en-us/dotne
 
 
 ## Conclusion 
-I have had a lot of fun creating this application because I had no clue what Rails is before I start. I used Trello [board]([[https://trello.com/b/ToakvioE/instabug-chat-system](https://trello.com/b/ToakvioE/instabug-chat-system)]) to manage and organize the ToDos for this application. Hopefully, you will find it convenient. Also, make sure to check the commits history of this repo so you can see the progress I made. From 'just get it to work' to 'Code optimizations'
+I have had a lot of fun creating this application because I had no clue what Rails is before I start. I used Trello [board](https://trello.com/b/ToakvioE/instabug-chat-system) to manage and organize the ToDos for this application. Hopefully, you will find it convenient. Also, make sure to check the commits history of this repo so you can see the progress I made. From 'just get it to work' to 'Code optimizations'
