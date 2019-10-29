@@ -15,12 +15,12 @@ I used the `--api` tag because I wanted to skip unnecessary files as long as all
  - ChatsWorker
  - MessagesWorker
 ## Dependencies
- - [Ruby version 2.5.7]([https://rubyinstaller.org/downloads/])
+ - [Ruby version 2.5.7](https://rubyinstaller.org/downloads/)
  - [Rails version 5.2.3](https://rubygems.org/gems/rails/versions/5.2.3)
  - Gem version 2.7.6.2
  - Bundler version 2.0.2
  - [MariaDB v10.4.6](https://mariadb.com/kb/en/library/mariadb-1046-release-notes/) 
- - [Elastic Search Rails]([https://github.com/elastic/elasticsearch-rails](https://github.com/elastic/elasticsearch-rails)) to build the search engine for messages
+ - [Elastic Search Rails](https://github.com/elastic/elasticsearch-rails) to build the search engine for messages
  - [Sidekiq](https://github.com/mperham/sidekiq) to process background jobs for messages/chats creation endpoints
  - [Sidekiq::Status](https://github.com/utgarda/sidekiq-status) to get the status of previously ran worker
  - [Redis](https://redis.io/) to store Sidekiq processes
@@ -41,29 +41,30 @@ I used the `--api` tag because I wanted to skip unnecessary files as long as all
  Now that you can run the application in development environment let's take a look at the routes
  ## Routes
  The following table shows available routes in the application
-| Prefix  | Verb  | URL  Pattern| Controller#Action  |
+| Prefix  | Verb  | URL  Pattern | Controller#Action  |
 |:-:|:-:|:-:|---|---|
-| root  | GET  | /  | home#index  |
-| sidekiq_web  |   | /sidekiq  | Sidekiq::Web  |
-| application_chat_messages  | GET  | /applications/:application_token/chats/:chat_token/messages(.:format)  |  messages#index |
-| application_chat_messages  | POST | /applications/:application_token/chats/:chat_token/messages(.:format)  |  messages#create |
-| application_chat_message | GET| /applications/:application_token/chats/:chat_token/messages/:token(.:format)  |  messages#show |
-| application_chat_message | PATCH | /applications/:application_token/chats/:chat_token/messages/:token(.:format)  |  messages#update |
-| application_chat_message | PUT | /applications/:application_token/chats/:chat_token/messages/:token(.:format)  |  messages#update |
-| application_chat_message | DELETE| /applications/:application_token/chats/:chat_token/messages/:token(.:format)  |  messages#destroy |
-| application_chats | GET | /applications/:application_token/chats(.:format)  |  chats#index |
-| application_chats | POST | /applications/:application_token/chats(.:format)  |  chats#create|
-| application_chat | GET| /applications/:application_token/chats/:token(.:format)  |  chats#show|
-| application_chat | PATCH| /applications/:application_token/chats/:token(.:format)  |  chats#update|
-| application_chat | PUT| /applications/:application_token/chats/:token(.:format)  |  chats#update|
-| application_chat | DELETE| /applications/:application_token/chats/:token(.:format)  |  chats#destroy|
-| applications| POST| /applications(.:format)  |  applications#create |
-| application| GET| /applications/:token(.:format)  |  applications#show |
-| application| PATCH| /applications/:token(.:format)  |  applications#update|
-| application| PUT| /applications/:token(.:format)  |  applications#update|
-| application| DELETE| /applications/:token(.:format)  |  applications#destroy |
-| search| GET| /search(.:format)  |  search#doFullMagic|
-| job| GET| /job/:jid(.:format)  |  home#job |
+| root | GET | / | home#index |
+| sidekiq_web |   | /sidekiq | Sidekiq::Web |
+| application_chat_messages  | GET  | /applications/:application_token/chats/:chat_token/messages(.:format) | messages#index |
+| application_chat_messages  | POST | /applications/:application_token/chats/:chat_token/messages(.:format) | messages#create |
+| application_chat_message | GET | /applications/:application_token/chats/:chat_token/messages/:token(.:format) | messages#show |
+| application_chat_message | PATCH | /applications/:application_token/chats/:chat_token/messages/:token(.:format) | messages#update |
+| application_chat_message | PUT | /applications/:application_token/chats/:chat_token/messages/:token(.:format) | messages#update |
+| application_chat_message | DELETE | /applications/:application_token/chats/:chat_token/messages/:token(.:format) | messages#destroy |
+| application_chats | GET | /applications/:application_token/chats(.:format) | chats#index |
+| application_chats | POST | /applications/:application_token/chats(.:format) | chats#create |
+| application_chat | GET | /applications/:application_token/chats/:token(.:format) |  chats#show |
+| application_chat | PATCH | /applications/:application_token/chats/:token(.:format) | chats#update |
+| application_chat | PUT | /applications/:application_token/chats/:token(.:format) | chats#update |
+| application_chat | DELETE | /applications/:application_token/chats/:token(.:format) | chats#destroy |
+| applications | POST | /applications(.:format) | applications#create |
+| application | GET | /applications/:token(.:format) | applications#show |
+| application | PATCH | /applications/:token(.:format) | applications#update |
+| application | PUT | /applications/:token(.:format) | applications#update |
+| application | DELETE | /applications/:token(.:format) | applications#destroy |
+| application_chat_search | GET | /applications/:application_token/chats/:chat_token/search(.:format) |  search#doFullMagic |
+| job | GET | /job/:jid(.:format) | home#job |
+
 ## Routes usage
 ### Create an application
 To create an application send a `POST` request to `/applications` with the name parameter. 
