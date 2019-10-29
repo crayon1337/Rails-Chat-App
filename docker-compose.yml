@@ -9,7 +9,9 @@ services:
       # So you don't have to use root, but you can if you like
       MYSQL_USER: 'cr4y0n'
       # You can use whatever password you like
-      MYSQL_PASSWORD: 'test@'
+      MYSQL_PASSWORD: 'test'
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: 'test@complex'
     ports:
       # <Port exposed> : < MySQL Port running inside container>
       - '3306:3306'
@@ -33,6 +35,17 @@ services:
       - db
   redis:
     image: redis
+    command: redis-server
+    volumes:
+      - 'redis:/data'
+  sidekiq:
+    depends_on: 
+      - 'mysql'
+      - 'redis'
+    build: .
+    command: sidekiq
+    volumes:
+      - '.:/app'
   es01:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.4.1
     container_name: es01
@@ -82,6 +95,7 @@ volumes:
     driver: local
   my-db:
   logvolume01: {}
+  redis:
 
 networks:
   esnet:

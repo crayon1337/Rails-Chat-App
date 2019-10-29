@@ -51,6 +51,7 @@ The following softwares I used during the development of this application:
 - Increase vm max cap for ElasticSearch `sudo sysctl -w vm.max_map_count=262144`
 - Increase max file descriptors `ulimit -n 65536`
 - Run Docker Composer `docker-compose up`
+- Migrate the database using `docker-compose exec --user "$(id -u):$(id -g)" website rails db:create db:migrate`
  
  Now that you can run the application let's take a look at the routes
  
