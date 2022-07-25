@@ -152,9 +152,10 @@ GEM
       tzinfo (>= 1.0.0)
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
-    websocket-extensions (0.1.4)
+    websocket-extensions (0.1.5)
 
 PLATFORMS
+  ruby
   x64-mingw32
   x86_64-linux
 
